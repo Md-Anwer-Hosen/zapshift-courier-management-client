@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "title": "Express & Standard Delivery",
+    "desc": "We deliver parcels within 24–72 hours in major cities. Express delivery available within 4–6 hours from pick-up to drop-off.",
+    "icon": "truck"
+  },
+  {
+    "id": 2,
+    "title": "Nationwide Delivery",
+    "desc": "We deliver parcels nationwide with home delivery in every district within 48–72 hours.",
+    "icon": "map"
+  },
+  {
+    "id": 3,
+    "title": "Fulfillment Solution",
+    "desc": "Full customized service with inventory management, packaging, and after-sales support.",
+    "icon": "box"
+  },
+  {
+    "id": 4,
+    "title": "Cash on Home Delivery",
+    "desc": "100% cash on delivery anywhere in Bangladesh with guaranteed product safety.",
+    "icon": "dollar"
+  },
+  {
+    "id": 5,
+    "title": "Corporate Logistics",
+    "desc": "Customized corporate services including warehouse and inventory management.",
+    "icon": "briefcase"
+  },
+  {
+    "id": 6,
+    "title": "Parcel Return",
+    "desc": "Reverse logistics facility allowing customers to return or exchange products.",
+    "icon": "refresh"
+  }
+]
