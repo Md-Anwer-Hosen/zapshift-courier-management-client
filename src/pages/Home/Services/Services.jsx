@@ -20,7 +20,7 @@ const iconMap = {
 
 const Services = () => {
   return (
-    <section className="w-full px-2 sm:px-0 py-14">
+    <section className="w-full px-2 sm:px-0 py-14 ">
       <div className=" rounded-2xl bg-[#0b3a3f] p-6 sm:p-8 lg:p-12 shadow-xl">
         {/* Header */}
         <div className="text-center">
@@ -47,8 +47,9 @@ const Services = () => {
                   bg-white p-6 shadow-sm
                   transition-all duration-300
                   hover:-translate-y-2 hover:shadow-2xl
-                  hover:bg-lime-300/90
+                  hover:bg-primary
                 "
+                data-aos="fade-up"
               >
                 {/* Icon */}
                 <div
@@ -69,8 +70,8 @@ const Services = () => {
                 {/* Title */}
                 <h3
                   className="
-                  mt-4 text-lg font-semibold text-slate-900
-                  group-hover:text-[#0b3a3f] transition
+                  mt-4 text-2xl font-semibold text-secondary
+                  group-hover:text-white transition
                 "
                 >
                   {item.title}

@@ -27,12 +27,13 @@ const features = [
 
 const Features = () => {
   return (
-    <section className="py-14 bg-gray-100">
+    <section className="py-14 bg-transparent">
       <div className="max-w-6xl mx-auto px-4 space-y-6">
         {features.map((feature) => (
           <div
             key={feature.id}
             className="flex flex-col md:flex-row items-center gap-6 bg-white rounded-2xl p-6 md:p-8 shadow-sm hover:shadow-lg transition"
+            data-aos="fade-up"
           >
             {/* Image */}
             <div className="flex-shrink-0">
@@ -48,7 +49,7 @@ const Features = () => {
 
             {/* Text */}
             <div>
-              <h3 className="text-lg md:text-xl font-semibold text-gray-900">
+              <h3 className="text-md md:text-2xl font-semibold text-secondary">
                 {feature.title}
               </h3>
               <p className="mt-2 text-sm text-gray-600 leading-relaxed">
