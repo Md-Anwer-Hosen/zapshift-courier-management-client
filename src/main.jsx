@@ -6,6 +6,7 @@ import router from "./routes/Router.jsx";
 
 import AOS from "aos";
 import "aos/dist/aos.css";
+import AuthProvider from "./contexts/AuthProvider.jsx";
 
 function AppWrapper() {
   useEffect(() => {
@@ -21,7 +22,11 @@ function AppWrapper() {
     });
   }, []);
 
-  return <RouterProvider router={router} />;
+  return (
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
+  );
 }
 
 createRoot(document.getElementById("root")).render(
