@@ -4,6 +4,9 @@ import Home from "../pages/Home/Home/Home";
 import AuthLayout from "../layouts/AuthLayout";
 import Login from "../pages/Auth/Login/Login";
 import CreateAccount from "../pages/Auth/CreateAccount/CreateAccount";
+import Covarage from "../pages/covarage/Covarage";
+import SendParcel from "../pages/sendParcel/SendParcel";
+import PrivetRoutes from "../PrivetRoutes/PrivetRoutes";
 
 const router = createBrowserRouter([
   {
@@ -13,6 +16,18 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Home />,
+      },
+      {
+        path: "/covarage",
+        element: <Covarage />,
+      },
+      {
+        path: "/sendParcel",
+        element: (
+          <PrivetRoutes>
+            <SendParcel />
+          </PrivetRoutes>
+        ),
       },
     ],
   },

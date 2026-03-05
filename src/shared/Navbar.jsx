@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import Logo from "./Logo";
 
 const Navbar = () => {
@@ -9,11 +9,11 @@ const Navbar = () => {
         <NavLink>Home</NavLink>
       </li>
       <li>
-        <a>Item 1</a>
+        <NavLink>Covarage</NavLink>
       </li>
 
       <li>
-        <a>Item 3</a>
+        <NavLink to={"/sendParcel"}>Send a Parcel</NavLink>
       </li>
     </>
   );
@@ -50,15 +50,17 @@ const Navbar = () => {
             {links}
           </ul>
         </div>
-        <a className=" text-xl hidden lg:flex px-2 -py-1">
+        <div className=" text-xl hidden lg:flex px-2 -py-1">
           <Logo />
-        </a>
+        </div>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
       <div className="navbar-end">
-        <a className="btn text-black bg-white">Button</a>
+        <Link to={"/login"} className="btn bg-primary">
+          Login
+        </Link>
       </div>
     </div>
   );
