@@ -1,7 +1,8 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
+import Swal from "sweetalert2";
 
 const CreateAccount = () => {
   const {
@@ -10,23 +11,71 @@ const CreateAccount = () => {
     formState: { errors },
   } = useForm();
 
-  //create account-->>
-
   const { createUser, signInWithGoogle } = useAuth();
+  const navigate = useNavigate();
+
+  const getFirebaseErrorMessage = (code) => {
+    switch (code) {
+      case "auth/email-already-in-use":
+        return "This email is already registered.";
+      case "auth/invalid-email":
+        return "Please enter a valid email address.";
+      case "auth/weak-password":
+        return "Password should be at least 6 characters.";
+      case "auth/missing-password":
+        return "Password is required.";
+      case "auth/network-request-failed":
+        return "Network error. Please check your internet connection.";
+      default:
+        return "Something went wrong. Please try again.";
+    }
+  };
 
   const onSubmit = (data) => {
-    console.log(data);
-    createUser(data.email, data.password)
-      .then((result) => console.log(result.user))
-      .catch((err) => console.log(err));
+    const { email, password } = data;
+
+    createUser(email, password)
+      .then((result) => {
+        console.log(result.user);
+
+        Swal.fire({
+          icon: "success",
+          title: "Account Created",
+          text: "Your account has been created successfully.",
+        }).then(() => {
+          navigate("/");
+        });
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: "Signup Failed",
+          text: getFirebaseErrorMessage(err.code),
+        });
+      });
   };
 
   const handlegoogleLogin = () => {
     signInWithGoogle()
-      .then((result) => console.log(result))
-      .catch((err) => console.log(err));
-  };
+      .then((result) => {
+        console.log(result.user);
 
+        Swal.fire({
+          icon: "success",
+          title: "Login Successful",
+          text: "You have logged in with Google.",
+        }).then(() => {
+          navigate("/");
+        });
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: "Google Login Failed",
+          text: getFirebaseErrorMessage(err.code),
+        });
+      });
+  };
   const inputClass =
     "input input-bordered w-full focus:outline-none focus:ring-1 focus:ring-[#CAEB66] focus:border-[#CAEB66]";
 

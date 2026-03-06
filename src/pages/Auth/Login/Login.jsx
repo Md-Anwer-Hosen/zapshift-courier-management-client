@@ -1,24 +1,78 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
+import Swal from "sweetalert2";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const { signInWithGoogle } = useAuth();
+  const { signInWithGoogle, signIn } = useAuth();
+
+  const getFirebaseErrorMessage = (code) => {
+    switch (code) {
+      case "auth/user-not-found":
+        return "No account found with this email.";
+      case "auth/wrong-password":
+        return "Incorrect password.";
+      case "auth/invalid-email":
+        return "Invalid email address.";
+      case "auth/network-request-failed":
+        return "Network error. Check your internet connection.";
+      default:
+        return "Login failed. Please try again.";
+    }
+  };
 
   const handlegoogleLogin = () => {
     signInWithGoogle()
-      .then((result) => console.log(result))
-      .catch((err) => console.log(err));
+      .then((result) => {
+        Swal.fire({
+          icon: "success",
+          title: "Login Successful",
+          text: "Logged in with Google.",
+        }).then(() => {
+          navigate(from);
+        });
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: "Google Login Failed",
+          text: getFirebaseErrorMessage(err.code),
+        });
+      });
   };
 
-  const onsubmit = (data) => console.log(data);
+  const onsubmit = (data) => {
+    const { email, password } = data;
+
+    signIn(email, password)
+      .then((result) => {
+        Swal.fire({
+          icon: "success",
+          title: "Login Successful",
+          text: "Welcome back!",
+        }).then(() => {
+          navigate(from);
+        });
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: "Login Failed",
+          text: getFirebaseErrorMessage(err.code),
+        });
+      });
+  };
 
   return (
     <div className="w-full max-w-sm">
