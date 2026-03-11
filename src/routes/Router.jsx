@@ -10,6 +10,19 @@ import PrivetRoutes from "../PrivetRoutes/PrivetRoutes";
 import DashboardLayout from "../layouts/DashboardLayout";
 import MyParcels from "../pages/Dashboard/MyParcels/MyParcels";
 import Payments from "../pages/Dashboard/payments/Payments";
+import PaymentHistory from "../pages/Dashboard/PaymentHistory/PaymentHistory";
+import TracParcel from "../pages/Dashboard/TracParcel/TracParcel";
+import BeARider from "../pages/BeARider/BeARider";
+import PendingRiders from "../pages/Dashboard/PendingRiders/PendingRiders";
+import ActiveRiders from "../pages/Dashboard/ActiveRiders/ActiveRiders";
+import MakeAdmin from "../pages/Dashboard/MakeAdmin/MakeAdmin";
+import Forbidden from "../pages/Forbidden/Forbidden";
+import AdminRoutes from "../PrivetRoutes/AdminRoutes";
+
+import AssignRider from "../pages/Dashboard/AssignRider/AssignRider";
+import MyTask from "../pages/Dashboard/MyTask/MyTask";
+import RiderRoutes from "../PrivetRoutes/RiderRoutes";
+import CompleatedTask from "../pages/Dashboard/CompleatedTask/CompleatedTask";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +44,14 @@ const router = createBrowserRouter([
             <SendParcel />
           </PrivetRoutes>
         ),
+      },
+      {
+        path: "forbidden",
+        element: <Forbidden />,
+      },
+      {
+        path: "beARider",
+        element: <BeARider />,
       },
     ],
   },
@@ -57,16 +78,69 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        index: true,
-        element: <MyParcels />,
-      },
-      {
         path: "myParcels",
         element: <MyParcels />,
       },
       {
         path: "payment/:parcelId",
         element: <Payments />,
+      },
+      {
+        path: "paymentHistory",
+        element: <PaymentHistory />,
+      },
+      {
+        path: "tracParcel",
+        element: <TracParcel />,
+      },
+      {
+        path: "pendingRiders",
+        element: (
+          <AdminRoutes>
+            {" "}
+            <PendingRiders />
+          </AdminRoutes>
+        ),
+      },
+      {
+        path: "activeRiders",
+        element: (
+          <AdminRoutes>
+            <ActiveRiders />
+          </AdminRoutes>
+        ),
+      },
+      {
+        path: "makeAdmin",
+        element: (
+          <AdminRoutes>
+            <MakeAdmin />
+          </AdminRoutes>
+        ),
+      },
+      {
+        path: "asignRider",
+        element: (
+          <AdminRoutes>
+            <AssignRider />
+          </AdminRoutes>
+        ),
+      },
+      {
+        path: "mytask",
+        element: (
+          <RiderRoutes>
+            <MyTask />
+          </RiderRoutes>
+        ),
+      },
+      {
+        path: "compleatedTask",
+        element: (
+          <RiderRoutes>
+            <CompleatedTask />
+          </RiderRoutes>
+        ),
       },
     ],
   },

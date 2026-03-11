@@ -1,0 +1,72 @@
+{
+  "Dhaka": [
+    "Dhaka",
+    "Gazipur",
+    "Kishoreganj",
+    "Madaripur",
+    "Manikganj",
+    "Munshiganj",
+    "Narayanganj",
+    "Narsingdi",
+    "Rajbari",
+    "Shariatpur",
+    "Tangail",
+    "Faridpur",
+    "Gopalganj"
+  ],
+  "Chattogram": [
+    "Chattogram",
+    "Cox's Bazar",
+    "Bandarban",
+    "Rangamati",
+    "Khagrachari",
+    "Feni",
+    "Noakhali",
+    "Lakshmipur",
+    "Cumilla",
+    "Chandpur",
+    "Brahmanbaria"
+  ],
+  "Rajshahi": [
+    "Rajshahi",
+    "Bogura",
+    "Joypurhat",
+    "Naogaon",
+    "Natore",
+    "Chapainawabganj",
+    "Pabna",
+    "Sirajganj"
+  ],
+  "Khulna": [
+    "Khulna",
+    "Bagerhat",
+    "Satkhira",
+    "Jessore",
+    "Jhenaidah",
+    "Magura",
+    "Narail",
+    "Chuadanga",
+    "Kushtia",
+    "Meherpur"
+  ],
+  "Barishal": [
+    "Barishal",
+    "Bhola",
+    "Patuakhali",
+    "Pirojpur",
+    "Barguna",
+    "Jhalokathi"
+  ],
+  "Sylhet": ["Sylhet", "Moulvibazar", "Habiganj", "Sunamganj"],
+  "Rangpur": [
+    "Rangpur",
+    "Dinajpur",
+    "Kurigram",
+    "Gaibandha",
+    "Lalmonirhat",
+    "Nilphamari",
+    "Panchagarh",
+    "Thakurgaon"
+  ],
+  "Mymensingh": ["Mymensingh", "Jamalpur", "Netrokona", "Sherpur"]
+}

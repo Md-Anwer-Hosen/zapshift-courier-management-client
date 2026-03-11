@@ -3,10 +3,12 @@ import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import Swal from "sweetalert2";
+import useAxiosNormal from "../../../hooks/useAxiosNormal";
 
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const axiosNormal = useAxiosNormal();
   const from = location.state?.from?.pathname || "/";
 
   const {
@@ -32,31 +34,44 @@ const Login = () => {
     }
   };
 
-  const handlegoogleLogin = () => {
-    signInWithGoogle()
-      .then((result) => {
-        Swal.fire({
-          icon: "success",
-          title: "Login Successful",
-          text: "Logged in with Google.",
-        }).then(() => {
-          navigate(from);
-        });
-      })
-      .catch((err) => {
-        Swal.fire({
-          icon: "error",
-          title: "Google Login Failed",
-          text: getFirebaseErrorMessage(err.code),
-        });
+  const handlegoogleLogin = async () => {
+    try {
+      const result = await signInWithGoogle();
+      console.log(result.user);
+
+      const userInfo = {
+        name: result.user.displayName || "No Name",
+        email: result.user.email,
+        photoURL: result.user.photoURL || "",
+        role: "user",
+        created_at: new Date().toISOString(),
+        last_login: new Date().toISOString(),
+      };
+
+      const res = await axiosNormal.post("/users", userInfo);
+      console.log(res.data);
+
+      Swal.fire({
+        icon: "success",
+        title: "Login Successful",
+        text: "You have logged in with Google.",
+      }).then(() => {
+        navigate("/");
       });
+    } catch (err) {
+      Swal.fire({
+        icon: "error",
+        title: "Google Login Failed",
+        text: getFirebaseErrorMessage(err.code),
+      });
+    }
   };
 
   const onsubmit = (data) => {
     const { email, password } = data;
 
     signIn(email, password)
-      .then((result) => {
+      .then(() => {
         Swal.fire({
           icon: "success",
           title: "Login Successful",

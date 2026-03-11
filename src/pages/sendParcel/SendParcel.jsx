@@ -8,6 +8,7 @@ import RegionServiceSelect from "../../shared/RegionServiceSelect"; // keep if y
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 // ---------- Cost calculation (simple demo) ----------
 const BASE_PRICE = { document: 80, "non-document": 120 };
@@ -23,6 +24,7 @@ const REGION_MULTIPLIER = {
 };
 
 // service center (district) small fee example
+
 function centerFee(district) {
   if (!district) return 0;
   // you can customize later
@@ -168,12 +170,14 @@ function RHFRegionCenter({
 }
 
 export default function SendParcel() {
+  const navigate = useNavigate();
   // active hubs only
   const hubsActive = useMemo(() => {
     return hubs.filter((h) => String(h.status).toLowerCase() === "active");
   }, []);
 
   // unique regions list
+
   const regions = useMemo(() => {
     const set = new Set(hubsActive.map((h) => h.region).filter(Boolean));
     return Array.from(set).sort();
@@ -239,7 +243,6 @@ export default function SendParcel() {
       trackingId: generateTrackingId(),
       deliveryCost: cost,
       creation_date: new Date().toISOString(),
-      status: "pending",
 
       parcel: {
         type: data.parcelType,
@@ -331,8 +334,11 @@ export default function SendParcel() {
                 //sent data in server-->>
 
                 axiosSecure.post("/parcels", payload).then((res) => {
-                  console.log(res.data);
-                  toast.success("Parcel Confirmed");
+                  if (res.data.insertedId) {
+                    toast.success("Parcel Confirmed");
+                    reset();
+                    navigate("/dashboard/myParcels");
+                  }
                 });
               }}
             >

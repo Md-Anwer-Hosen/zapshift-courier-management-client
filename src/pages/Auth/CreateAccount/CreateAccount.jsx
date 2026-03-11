@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import Swal from "sweetalert2";
+import axios from "axios";
+import useAxiosNormal from "../../../hooks/useAxiosNormal";
 
 const CreateAccount = () => {
   const {
@@ -11,8 +13,10 @@ const CreateAccount = () => {
     formState: { errors },
   } = useForm();
 
-  const { createUser, signInWithGoogle } = useAuth();
+  const { createUser, signInWithGoogle, updateUserProfile } = useAuth();
   const navigate = useNavigate();
+  const axiosNormal = useAxiosNormal();
+  const [image, setImage] = useState("");
 
   const getFirebaseErrorMessage = (code) => {
     switch (code) {
@@ -31,51 +35,110 @@ const CreateAccount = () => {
     }
   };
 
-  const onSubmit = (data) => {
-    const { email, password } = data;
+  const onSubmit = async (data) => {
+    const { email, password, name } = data;
 
-    createUser(email, password)
-      .then((result) => {
-        console.log(result.user);
+    try {
+      const result = await createUser(email, password);
+      console.log(result.user);
 
-        Swal.fire({
-          icon: "success",
-          title: "Account Created",
-          text: "Your account has been created successfully.",
-        }).then(() => {
-          navigate("/");
-        });
-      })
-      .catch((err) => {
-        Swal.fire({
-          icon: "error",
-          title: "Signup Failed",
-          text: getFirebaseErrorMessage(err.code),
-        });
+      const userInfo = {
+        name: name,
+        email: email,
+        photoURL: image || "",
+        role: "user",
+        created_at: new Date().toISOString(),
+        last_login: new Date().toISOString(),
+      };
+
+      const res = await axiosNormal.post("/users", userInfo);
+      console.log(res.data);
+
+      const userProfile = {
+        displayName: name,
+        photoURL: image || "",
+      };
+
+      await updateUserProfile(userProfile);
+      console.log("profile updated");
+
+      Swal.fire({
+        icon: "success",
+        title: "Account Created",
+        text: "Your account has been created successfully.",
+      }).then(() => {
+        navigate("/");
       });
+    } catch (err) {
+      Swal.fire({
+        icon: "error",
+        title: "Signup Failed",
+        text: getFirebaseErrorMessage(err.code),
+      });
+      console.log(err);
+    }
   };
 
-  const handlegoogleLogin = () => {
-    signInWithGoogle()
-      .then((result) => {
-        console.log(result.user);
+  //google login-->>
 
-        Swal.fire({
-          icon: "success",
-          title: "Login Successful",
-          text: "You have logged in with Google.",
-        }).then(() => {
-          navigate("/");
-        });
-      })
-      .catch((err) => {
-        Swal.fire({
-          icon: "error",
-          title: "Google Login Failed",
-          text: getFirebaseErrorMessage(err.code),
-        });
+  const handlegoogleLogin = async () => {
+    try {
+      const result = await signInWithGoogle();
+      console.log(result.user);
+
+      const userInfo = {
+        name: result.user.displayName || "No Name",
+        email: result.user.email,
+        photoURL: result.user.photoURL || "",
+        role: "user",
+        created_at: new Date().toISOString(),
+        last_login: new Date().toISOString(),
+      };
+
+      const res = await axiosNormal.post("/users", userInfo);
+      console.log(res.data);
+
+      Swal.fire({
+        icon: "success",
+        title: "Login Successful",
+        text: "You have logged in with Google.",
+      }).then(() => {
+        navigate("/");
       });
+    } catch (err) {
+      Swal.fire({
+        icon: "error",
+        title: "Google Login Failed",
+        text: getFirebaseErrorMessage(err.code),
+      });
+    }
   };
+  //image upload-->>
+
+  const handleImageUpload = async (e) => {
+    try {
+      const imageFile = e.target.files[0];
+      if (!imageFile) return;
+
+      const formData = new FormData();
+      formData.append("image", imageFile);
+
+      const res = await axios.post(
+        `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMAGEBB_API_KEY}`,
+        formData,
+      );
+
+      setImage(res.data.data.url);
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "Image Upload Failed",
+        text: "Could not upload image. Try again.",
+      });
+    }
+  };
+
   const inputClass =
     "input input-bordered w-full focus:outline-none focus:ring-1 focus:ring-[#CAEB66] focus:border-[#CAEB66]";
 
@@ -92,6 +155,19 @@ const CreateAccount = () => {
         <div className="mt-6 sm:mt-8 card bg-white w-full shadow-sm border border-slate-100">
           <div className="card-body p-5 sm:p-6">
             <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+              {/* image */}
+              <div>
+                <label className="label pb-1">
+                  <span className="label-text text-sm">Upload image</span>
+                </label>
+                <input
+                  type="file"
+                  className={inputClass}
+                  placeholder=""
+                  onChange={handleImageUpload}
+                />
+              </div>
+
               {/* Name */}
               <div>
                 <label className="label pb-1">
