@@ -24,6 +24,7 @@ import MyTask from "../pages/Dashboard/MyTask/MyTask";
 import RiderRoutes from "../PrivetRoutes/RiderRoutes";
 import CompleatedTask from "../pages/Dashboard/CompleatedTask/CompleatedTask";
 import DashboardHome from "../pages/Dashboard/DashboardHome/DashboardHome";
+import Error404 from "../pages/Error404/Error404";
 
 const router = createBrowserRouter([
   {
@@ -148,6 +149,10 @@ const router = createBrowserRouter([
         ),
       },
     ],
+  },
+  {
+    path: "*",
+    element: <Error404 />,
   },
 ]);
 

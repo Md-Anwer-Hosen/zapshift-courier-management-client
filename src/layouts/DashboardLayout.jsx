@@ -125,7 +125,7 @@ const DashboardLayout = () => {
             <>
               <li>
                 <NavLink
-                  to="/dashboard/myTask"
+                  to="/dashboard/mytask"
                   className={({ isActive }) =>
                     `${navStyle} ${isActive ? "bg-primary text-black" : ""}`
                   }

@@ -13,12 +13,10 @@ const queryClient = new QueryClient();
 
 function AppWrapper() {
   useEffect(() => {
-    // ✅ refresh/back scroll restore বন্ধ
     window.history.scrollRestoration = "manual";
-    // ✅ first load / refresh এ top
+
     window.scrollTo(0, 0);
 
-    // ✅ AOS init
     AOS.init({
       duration: 800,
       once: true,
