@@ -23,6 +23,7 @@ import AssignRider from "../pages/Dashboard/AssignRider/AssignRider";
 import MyTask from "../pages/Dashboard/MyTask/MyTask";
 import RiderRoutes from "../PrivetRoutes/RiderRoutes";
 import CompleatedTask from "../pages/Dashboard/CompleatedTask/CompleatedTask";
+import DashboardHome from "../pages/Dashboard/DashboardHome/DashboardHome";
 
 const router = createBrowserRouter([
   {
@@ -77,6 +78,10 @@ const router = createBrowserRouter([
       </PrivetRoutes>
     ),
     children: [
+      {
+        index: true,
+        element: <DashboardHome />,
+      },
       {
         path: "myParcels",
         element: <MyParcels />,

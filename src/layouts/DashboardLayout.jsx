@@ -3,15 +3,22 @@ import { NavLink, Outlet } from "react-router-dom";
 import Logo from "../shared/Logo";
 
 import { MdHome, MdLocalShipping } from "react-icons/md";
-import { FaHistory, FaUserClock } from "react-icons/fa";
+import {
+  FaHistory,
+  FaUserClock,
+  FaTasks,
+  FaCheckCircle,
+  FaUserShield,
+  FaTruckMoving,
+} from "react-icons/fa";
 import { RiMotorbikeFill } from "react-icons/ri";
 import { GiPathDistance } from "react-icons/gi";
 import useUserRole from "../hooks/useUserRole";
 
 const DashboardLayout = () => {
-  const { role, isLoading } = useUserRole();
+  const { role, roleLoading } = useUserRole();
 
-  if (isLoading) {
+  if (roleLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
         <span className="loading loading-spinner loading-xl"></span>
@@ -77,7 +84,6 @@ const DashboardLayout = () => {
           </li>
 
           {/* USER MENU */}
-
           <li>
             <NavLink
               to="/dashboard/myParcels"
@@ -114,9 +120,8 @@ const DashboardLayout = () => {
             </NavLink>
           </li>
 
-          {/* rider menu */}
-
-          {!isLoading && role === "rider" && (
+          {/* RIDER MENU */}
+          {role === "rider" && (
             <>
               <li>
                 <NavLink
@@ -125,7 +130,7 @@ const DashboardLayout = () => {
                     `${navStyle} ${isActive ? "bg-primary text-black" : ""}`
                   }
                 >
-                  <FaHistory size={20} />
+                  <FaTasks size={20} />
                   My Task
                 </NavLink>
               </li>
@@ -136,7 +141,7 @@ const DashboardLayout = () => {
                     `${navStyle} ${isActive ? "bg-primary text-black" : ""}`
                   }
                 >
-                  <FaHistory size={20} />
+                  <FaCheckCircle size={20} />
                   Compleated task
                 </NavLink>
               </li>
@@ -181,10 +186,11 @@ const DashboardLayout = () => {
                     `${navStyle} ${isActive ? "bg-primary text-black" : ""}`
                   }
                 >
-                  <RiMotorbikeFill size={20} />
+                  <FaUserShield size={20} />
                   Make Admin
                 </NavLink>
               </li>
+
               <li>
                 <NavLink
                   to="/dashboard/asignRider"
@@ -192,7 +198,7 @@ const DashboardLayout = () => {
                     `${navStyle} ${isActive ? "bg-primary text-black" : ""}`
                   }
                 >
-                  <RiMotorbikeFill size={20} />
+                  <FaTruckMoving size={20} />
                   Asign Rider
                 </NavLink>
               </li>

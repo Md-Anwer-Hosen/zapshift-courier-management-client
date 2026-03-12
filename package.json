@@ -27,6 +27,7 @@
     "react-leaflet": "^5.0.0",
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^7.13.0",
+    "recharts": "^3.8.0",
     "sweetalert2": "^11.26.21",
     "swiper": "^12.1.2"
   },
